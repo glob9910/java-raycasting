@@ -3,7 +3,7 @@ package logic;
 public class Game {
 
     private int time = 0;
-    private int speed = 4;
+    private int speed = 3;
 
     public void tick() {
         time+=speed;
