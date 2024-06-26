@@ -1,7 +1,12 @@
 import graphics.Render;
+import graphics.Screen;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+
+import java.awt.image.DataBufferInt;
 
 public class Display extends Canvas implements Runnable {
 
@@ -11,7 +16,10 @@ public class Display extends Canvas implements Runnable {
 
     private Thread thread;
     private boolean running = false;
+    private Screen screen;
     private Render render;
+    private BufferedImage img;
+    private int[] pixels;
 
     public Display() {
         JFrame frame = new JFrame();
@@ -24,7 +32,10 @@ public class Display extends Canvas implements Runnable {
         frame.setResizable(false);
         frame.setVisible(true);
 
-        render = new Render(WIDTH, HEIGHT);
+        //render = new Render(WIDTH, HEIGHT);
+        screen = new Screen(WIDTH, HEIGHT);
+        img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        pixels = ((DataBufferInt)img.getRaster().getDataBuffer()).getData();
 
         System.out.println("Running...");
         this.start();
@@ -62,6 +73,21 @@ public class Display extends Canvas implements Runnable {
     }
 
     private void render() {
+        BufferStrategy bs = this.getBufferStrategy();
+        if(bs == null) {
+            createBufferStrategy(3);
+            return;
+        }
 
+        screen.render();
+
+        for(int i=0; i<WIDTH*HEIGHT; i++) {
+            pixels[i] = screen.pixels[i];
+        }
+
+        Graphics g = bs.getDrawGraphics();
+        g.drawImage(img, 0, 0, WIDTH, HEIGHT, null);
+        g.dispose();
+        bs.show();
     }
 }
