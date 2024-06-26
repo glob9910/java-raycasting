@@ -61,9 +61,20 @@ public class Display extends Canvas implements Runnable {
     }
 
     public void run() {
+        int frames = 0;
+        long last = System.nanoTime();
+
         while(running){
             tick();
             render();
+
+            frames++;
+            long now = System.nanoTime();
+            if(now-last > 1000000000) {
+                System.out.println("FPS: " + frames);
+                frames = 0;
+                last = now;
+            }
         }
     }
 
