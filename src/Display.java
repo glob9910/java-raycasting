@@ -1,3 +1,5 @@
+import graphics.Render;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,6 +11,7 @@ public class Display extends Canvas implements Runnable {
 
     private Thread thread;
     private boolean running = false;
+    private Render render;
 
     public Display() {
         JFrame frame = new JFrame();
@@ -20,6 +23,8 @@ public class Display extends Canvas implements Runnable {
         //frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setVisible(true);
+
+        render = new Render(WIDTH, HEIGHT);
 
         System.out.println("Running...");
         this.start();
@@ -47,7 +52,16 @@ public class Display extends Canvas implements Runnable {
 
     public void run() {
         while(running){
-            ;
+            tick();
+            render();
         }
+    }
+
+    private void tick() {
+
+    }
+
+    private void render() {
+
     }
 }
