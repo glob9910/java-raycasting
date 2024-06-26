@@ -17,7 +17,6 @@ public class Display extends Canvas implements Runnable {
     private Thread thread;
     private boolean running = false;
     private Screen screen;
-    private Render render;
     private BufferedImage img;
     private int[] pixels;
 
