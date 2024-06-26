@@ -1,4 +1,5 @@
-import graphics.Render;
+package logic;
+
 import graphics.Screen;
 
 import javax.swing.*;
@@ -17,24 +18,30 @@ public class Display extends Canvas implements Runnable {
     private Thread thread;
     private boolean running = false;
     private Screen screen;
+    private Game game;
     private BufferedImage img;
     private int[] pixels;
 
     public Display() {
-        JFrame frame = new JFrame();
-        frame.add(this);
-        //frame.pack();
-        frame.setTitle(TITLE);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(WIDTH, HEIGHT);
-        //frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setVisible(true);
 
-        //render = new Render(WIDTH, HEIGHT);
+        Dimension size = new Dimension(WIDTH, HEIGHT);
+        setPreferredSize(size);
+        setMinimumSize(size);
+        setMaximumSize(size);
+
         screen = new Screen(WIDTH, HEIGHT);
+        game = new Game();
         img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         pixels = ((DataBufferInt)img.getRaster().getDataBuffer()).getData();
+
+        JFrame frame = new JFrame();
+        frame.add(this);
+        frame.setTitle(TITLE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.pack();
+        frame.setVisible(true);
 
         System.out.println("Running...");
         this.start();
@@ -79,7 +86,7 @@ public class Display extends Canvas implements Runnable {
     }
 
     private void tick() {
-
+        game.tick();
     }
 
     private void render() {
@@ -89,7 +96,7 @@ public class Display extends Canvas implements Runnable {
             return;
         }
 
-        screen.render();
+        screen.render(game);
 
         for(int i=0; i<WIDTH*HEIGHT; i++) {
             pixels[i] = screen.pixels[i];
