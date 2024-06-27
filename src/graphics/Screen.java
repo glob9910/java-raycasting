@@ -6,7 +6,6 @@ import java.util.Random;
 
 public class Screen extends Render {
 
-    private Render test;
     private Render3D render;
 
     public Screen(int width, int height) {
@@ -15,10 +14,6 @@ public class Screen extends Render {
         // test:
         Random random = new Random();
         render = new Render3D(width, height);
-        test = new Render(256, 256);
-        for(int i=0; i<256*256; i++) {
-            test.pixels[i] = random.nextInt();
-        }
     }
 
     public void render(Game game) {
@@ -27,10 +22,7 @@ public class Screen extends Render {
             pixels[i] = 0;
         }
 
-//        int anim = (int)(Math.sin(game.getTime()%1000.0/1000*Math.PI*2)*200);
-//        int anim2 = (int)(Math.cos(game.getTime()%1000.0/1000*Math.PI*2)*200);
-//        draw(test, (width/2)+anim, (height/2)-anim2);
-        render.floor();
+        render.floor(game);
         draw(render, 0, 0);
     }
 }
