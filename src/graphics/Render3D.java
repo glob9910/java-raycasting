@@ -12,11 +12,11 @@ public class Render3D extends Render {
     public void floor(Game game) {
 
         double floorPosition = 8;
-        double ceilingPosition = 8;
-        double forward = game.getTime()/5.0;
-        double right = game.getTime()/-5.0;
+        double ceilingPosition = 24;
+        double forward = game.getControls().z;
+        double right = game.getControls().x;
 
-        double rotation = game.getTime() / 100.0;
+        double rotation = game.getControls().rotation;
         double cosine = Math.cos(rotation);
         double sine = Math.sin(rotation);
 

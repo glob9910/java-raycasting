@@ -1,6 +1,7 @@
 package logic;
 
 import graphics.Screen;
+import input.InputHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,7 @@ public class Display extends Canvas implements Runnable {
     private boolean running = false;
     private Screen screen;
     private Game game;
+    private InputHandler input;
     private BufferedImage img;
     private int[] pixels;
 
@@ -33,6 +35,12 @@ public class Display extends Canvas implements Runnable {
         game = new Game();
         img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         pixels = ((DataBufferInt)img.getRaster().getDataBuffer()).getData();
+
+        input = new InputHandler();
+        addKeyListener(input);
+        addFocusListener(input);
+        addMouseListener(input);
+        addMouseMotionListener(input);
 
         JFrame frame = new JFrame();
         frame.add(this);
@@ -86,7 +94,7 @@ public class Display extends Canvas implements Runnable {
     }
 
     private void tick() {
-        game.tick();
+        game.tick(input.getKey());
     }
 
     private void render() {

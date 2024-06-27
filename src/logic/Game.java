@@ -1,14 +1,35 @@
 package logic;
 
+import input.Controller;
+
+import java.awt.event.KeyEvent;
+
 public class Game {
 
+    private Controller controls;
     private int time = 0;
 
-    public void tick() {
+    public Game() {
+        controls = new Controller();
+    }
+
+    public void tick(boolean[] key) {
         time++;
+        boolean forward = key[KeyEvent.VK_W];
+        boolean back = key[KeyEvent.VK_S];
+        boolean left = key[KeyEvent.VK_A];
+        boolean right = key[KeyEvent.VK_D];
+        boolean turnLeft = key[KeyEvent.VK_LEFT];
+        boolean turnRight = key[KeyEvent.VK_RIGHT];
+
+        controls.tick(forward, back, left, right, turnLeft, turnRight);
     }
 
     public int getTime() {
         return time;
+    }
+
+    public Controller getControls() {
+        return controls;
     }
 }
