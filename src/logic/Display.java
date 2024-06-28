@@ -26,6 +26,7 @@ public class Display extends Canvas implements Runnable {
     private int[] pixels;
     private int newX = 0;
     private int oldX = 0;
+    private int fps;
 
     public Display() {
 
@@ -92,7 +93,7 @@ public class Display extends Canvas implements Runnable {
             frames++;
             long now = System.nanoTime();
             if(now-last > 1000000000) {
-                System.out.println("FPS: " + frames);
+                fps = frames;
                 frames = 0;
                 last = now;
             }
@@ -108,8 +109,6 @@ public class Display extends Canvas implements Runnable {
             }
             oldX = newX;
         }
-
-
     }
 
     private void tick() {
@@ -131,6 +130,11 @@ public class Display extends Canvas implements Runnable {
 
         Graphics g = bs.getDrawGraphics();
         g.drawImage(img, 0, 0, WIDTH, HEIGHT, null);
+
+        g.setFont(new Font("Verdana", 2, 30));
+        g.setColor(Color.YELLOW);
+        g.drawString(fps + "fps", 20, 50);
+
         g.dispose();
         bs.show();
     }
