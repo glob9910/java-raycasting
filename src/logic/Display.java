@@ -1,6 +1,7 @@
 package logic;
 
 import graphics.Screen;
+import input.Controller;
 import input.InputHandler;
 
 import javax.swing.*;
@@ -23,9 +24,13 @@ public class Display extends Canvas implements Runnable {
     private InputHandler input;
     private BufferedImage img;
     private int[] pixels;
+    private int newX = 0;
+    private int oldX = 0;
 
     public Display() {
 
+        BufferedImage cursor = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        Cursor blank = Toolkit.getDefaultToolkit().createCustomCursor(cursor, new Point(0, 0), "blank");
         Dimension size = new Dimension(WIDTH, HEIGHT);
         setPreferredSize(size);
         setMinimumSize(size);
@@ -48,6 +53,7 @@ public class Display extends Canvas implements Runnable {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //frame.setLocationRelativeTo(null);
         frame.setResizable(false);
+        frame.getContentPane().setCursor(blank);
         frame.pack();
         frame.setVisible(true);
 
@@ -90,7 +96,20 @@ public class Display extends Canvas implements Runnable {
                 frames = 0;
                 last = now;
             }
+
+            newX = InputHandler.MouseX;
+            if(newX > oldX)
+                Controller.turnRight = true;
+            if(newX < oldX)
+                Controller.turnLeft = true;
+            if(newX == oldX) {
+                Controller.turnLeft = false;
+                Controller.turnRight = false;
+            }
+            oldX = newX;
         }
+
+
     }
 
     private void tick() {

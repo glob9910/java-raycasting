@@ -3,8 +3,10 @@ package input;
 public class Controller {
 
     public double x, z, rotation, xa, za, rotationa;
+    public static boolean turnLeft = false;
+    public static boolean turnRight = false;
 
-    public void tick(boolean forward, boolean back, boolean left, boolean right, boolean turnLeft, boolean turnRight) {
+    public void tick(boolean forward, boolean back, boolean left, boolean right) {
 
         double rotationSpeed = 0.005;
         double walkSpeed = 0.5;
